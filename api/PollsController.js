@@ -58,7 +58,7 @@ const Polls = {
                 await Poll.relatedQuery('choices').for(pollParams.id).insert(choice);
             });
 
-            res.sendStatus(200);
+            res.status(200).send({ id: pollParams.id });
         } catch (err) {
             console.log(err.message);
             res.sendStatus(500);
