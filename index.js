@@ -1,62 +1,20 @@
-const Knex = require('knex');
-const knexConfig = require('./knexfile');
-
-const { Model } = require('objection');
-const { Poll } = require('./models/Poll');
-
-const knexEnv = process.env.DB_ENV || 'development';
-const knex = Knex(knexConfig[knexEnv]);
-
-Model.knex(knex);
-
-
-
-const { customAlphabet } = require('nanoid');
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const nanoid = customAlphabet(alphabet, 10);
-
-
-
 const express = require('express');
-const { Pool } = require('pg');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const Polls = require('./api/PollsController');
 
 const PORT = process.env.PORT || 5000;
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
 
 express()
-    .get('/', (req, res) => res.send('hello world'))
-    .get('/api/polls', getPolls)
+    .use(helmet())
+    .use(express.json())
+    .use(cors())
+    .use(morgan('dev'))
+    .get('/', (_, res) => res.send('hello world'))
+    .get('/api/polls', Polls.index)                                 // polls.index
+    .post('/api/polls', Polls.storeValidator, Polls.store)          // polls.store
+    .get('/api/polls/:id', Polls.show)                              // polls.show
+    .patch('/api/polls/:id', Polls.updateValidator, Polls.update)   // polls.update
+    .delete('/api/polls/:id', Polls.destroy)                            // polls.delete
     .listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
-
-
-async function getPolls(req, res) {
-    await Poll.query().delete();
-
-    await Poll.query().insert({
-        id: nanoid(),
-        question: 'What is?'
-    });
-
-    const polls = await Poll.query();
-
-    res.send(polls);
-}
-
-
-// async function getPolls(req, res) {
-//     try {
-//         const client = await pool.connect();
-//         const result = await client.query('SELECT * from polls');
-//         res.send(result);
-//         client.release();
-//     } catch (e) {
-//         console.error(e);
-//         res.send('A database error has occurred: ' + e);
-//     }
-// }

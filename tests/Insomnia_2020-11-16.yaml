@@ -1,0 +1,173 @@
+_type: export
+__export_format: 4
+__export_date: 2020-11-17T03:15:57.501Z
+__export_source: insomnia.desktop.app:v2020.4.2
+resources:
+  - _id: req_9949e71f54eb4835b99e8aa1ebf4a690
+    parentId: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    modified: 1605559251530
+    created: 1605559114113
+    url: localhost:5000/api/polls
+    name: Get all polls
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1605559246940
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    parentId: wrk_ffd3d5ff09d747aabd9694a1d452406a
+    modified: 1605559246890
+    created: 1605559246890
+    name: splashpoll-api
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1605559246890
+    _type: request_group
+  - _id: wrk_ffd3d5ff09d747aabd9694a1d452406a
+    parentId: null
+    modified: 1605559082053
+    created: 1605559082053
+    name: Insomnia
+    description: ""
+    scope: null
+    _type: workspace
+  - _id: req_2225f7c162ce4b98a40a2795f5f8dbc0
+    parentId: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    modified: 1605560776043
+    created: 1605559301291
+    url: localhost:5000/api/polls
+    name: Create a new poll
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "question": "What is?",
+          "openEnded": "false",
+          "multipleChoices": true,
+          "answers": ["It is", "It is not"]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0cf967bdaa364217a05aa23f87c421bf
+    authentication: {}
+    metaSortKey: -1605559246890
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_56ca1e3c72234b5bafde6f8e51bfb37e
+    parentId: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    modified: 1605578731721
+    created: 1605578717138
+    url: localhost:5000/api/polls/UYbp9chmVz
+    name: Get a single poll
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1605559246840
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b62ad05b22794f58a103c901f5300be9
+    parentId: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    modified: 1605581553910
+    created: 1605580695330
+    url: localhost:5000/api/polls/UYbp9chmVz
+    name: Update a poll
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |
+        {
+        		"choices": ["It is"]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_4bececbe4fd14a36b9ff65cdc75d3474
+    authentication: {}
+    metaSortKey: -1605559246790
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_18f61c8e50a340eaaec1625732b14467
+    parentId: fld_a0870f9d29b141d3b1ebcddd2e68f31f
+    modified: 1605582435955
+    created: 1605581944874
+    url: localhost:5000/api/polls/1
+    name: Delete a poll
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1605559246740
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_34671cdb6b66a4a52fd999144a7094223dc9a256
+    parentId: wrk_ffd3d5ff09d747aabd9694a1d452406a
+    modified: 1605559082147
+    created: 1605559082147
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1605559082147
+    _type: environment
+  - _id: jar_34671cdb6b66a4a52fd999144a7094223dc9a256
+    parentId: wrk_ffd3d5ff09d747aabd9694a1d452406a
+    modified: 1605559082150
+    created: 1605559082150
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_b50e53b849394c83b0767425097c0a8e
+    parentId: wrk_ffd3d5ff09d747aabd9694a1d452406a
+    modified: 1605559082055
+    created: 1605559082055
+    fileName: Insomnia
+    contents: ""
+    contentType: yaml
+    _type: api_spec
