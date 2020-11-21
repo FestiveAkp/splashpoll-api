@@ -5,6 +5,7 @@ exports.up = knex => {
             table.string('question').notNullable();
             table.boolean('openEnded').notNullable();
             table.boolean('multipleChoices').notNullable();
+            table.integer('totalVotes').notNullable();
             table.timestamps(false, true);
         })
         .createTable('choices', table => {

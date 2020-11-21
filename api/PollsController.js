@@ -47,7 +47,8 @@ const Polls = {
             id: nanoid(),
             question: data.question,
             openEnded: data.openEnded,
-            multipleChoices: data.multipleChoices
+            multipleChoices: data.multipleChoices,
+            totalVotes: 0
         };
 
         try {
@@ -102,6 +103,7 @@ const Polls = {
 
         try {
             await Poll.relatedQuery('choices').for(id).increment('votes', 1).where('text', 'in', data.choices);
+            await Poll.query().findById(id).increment('totalVotes', data.choices.length);
             res.sendStatus(200);
         } catch (err) {
             console.log(err.message);
