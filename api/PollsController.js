@@ -59,7 +59,8 @@ const Polls = {
                 await Poll.relatedQuery('choices').for(pollParams.id).insert(choice);
             });
 
-            res.status(200).send({ id: pollParams.id });
+            const newPoll = await Poll.query().withGraphFetched('choices').findById(pollParams.id);
+            res.send(newPoll);
         } catch (err) {
             console.log(err.message);
             res.sendStatus(500);
