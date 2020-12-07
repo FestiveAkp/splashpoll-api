@@ -79,6 +79,40 @@ const Polls = {
 
 
     //
+    // GET /api/polls/{id}/stream
+    // Uses server-sent events to periodically update client with poll results
+    //
+    async stream(req, res) {
+        // Set headers
+        res.set({
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'text/event-stream',
+            'Connection': 'keep-alive'
+        });
+        res.flushHeaders();
+
+        // Tell client to retry every 2 seconds if connection is lost
+        res.write('retry: 2000\n\n');
+
+        // Send event messages
+        let interval = setInterval(async () => {
+            // Query results and send it
+            const id = req.params.id;
+            const poll = await Poll.query().withGraphFetched('choices').findById(id);
+            res.write(`data: ${JSON.stringify(poll)}\n\n`);
+            console.log('SSE send');
+        }, 1000);
+
+        // Check if the client left
+        res.on('close', () => {
+            console.log('SSE done');
+            clearInterval(interval);
+            res.end();
+        });
+    },
+
+
+    //
     // PATCH /api/polls/{id}
     // Given a selection of choices, update the votes of a given poll
     //

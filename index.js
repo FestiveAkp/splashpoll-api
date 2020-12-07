@@ -15,6 +15,7 @@ express()
     .get('/api/polls', Polls.index)                                 // polls.index
     .post('/api/polls', Polls.storeValidator, Polls.store)          // polls.store
     .get('/api/polls/:id', Polls.show)                              // polls.show
+    .get('/api/polls/:id/stream', Polls.stream)                     // polls.stream
     .patch('/api/polls/:id', Polls.updateValidator, Polls.update)   // polls.update
-    .delete('/api/polls/:id', Polls.destroy)                            // polls.delete
+    .delete('/api/polls/:id', Polls.destroy)                        // polls.delete
     .listen(PORT, () => console.log(`Listening on port ${PORT}`));
