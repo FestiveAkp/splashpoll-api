@@ -13,6 +13,7 @@ exports.up = knex => {
             table.string('poll_id', 10).references('id').inTable('polls').notNullable().onDelete('cascade');
             table.string('text').notNullable();
             table.integer('votes').notNullable();
+            table.boolean('is_open_ended').notNullable();
         });
 };
 
