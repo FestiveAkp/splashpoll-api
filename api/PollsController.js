@@ -120,10 +120,15 @@ const Polls = {
     updateValidator: [
         body('choices')
             .exists().withMessage('choices is required')
-            .isArray({ min: 1 }).withMessage('choices should be an array with at least 1 item'),
-
+            .isArray().withMessage('choices should be an array'),
         body('choices.*')
-            .isString().withMessage('choices should only contain strings')
+            .isString().withMessage('choices should only contain strings'),
+
+        body('openEndedResponses')
+            .exists().withMessage('openEndedResponses is required')
+            .isArray().withMessage('openEndedResponses should be an array'),
+        body('openEndedResponses.*')
+            .isString().withMessage('openEndedResponses should only contain strings')
     ],
 
     async update(req, res) {
@@ -137,7 +142,24 @@ const Polls = {
         const data = req.body;
 
         try {
-            await Poll.relatedQuery('choices').for(id).increment('votes', 1).where('text', 'in', data.choices);
+            // Create open ended answer objects
+            data.openEndedResponses.forEach(async answer => {
+                // Check if choice already exists
+                const matchingChoices = await Poll.relatedQuery('choices').for(id).where('text', answer);
+                if (matchingChoices.length > 0) {
+                    // Choice exists, increment it
+                    await Poll.relatedQuery('choices').for(id).where('text', answer).increment('votes', 1);
+                } else {
+                    // Otherwise, create a new choice with 1 vote
+                    const choice = { text: answer, votes: 1 };
+                    await Poll.relatedQuery('choices').for(id).insert(choice);
+                }
+                // Increment total votes
+                await Poll.query().findById(id).increment('totalVotes', 1);
+            });
+
+            // Update normal choices
+            await Poll.relatedQuery('choices').for(id).where('text', 'in', data.choices).increment('votes', 1);
             await Poll.query().findById(id).increment('totalVotes', data.choices.length);
             res.sendStatus(200);
         } catch (err) {
