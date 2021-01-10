@@ -74,8 +74,19 @@ const Polls = {
     //
     async show(req, res) {
         const id = req.params.id;
-        const poll = await Poll.query().withGraphFetched('choices').findById(id);
-        res.send(poll);
+        try {
+            const poll = await Poll.query().withGraphFetched('choices').findById(id);
+
+            // Check if poll was found
+            if (poll == null) {
+                res.sendStatus(404);
+            } else {
+                res.send(poll);
+            }
+        } catch (e) {
+            console.log(e);
+            res.sendStatus(500);
+        }
     },
 
 

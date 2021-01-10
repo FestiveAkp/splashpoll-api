@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const Polls = require('./api/PollsController');
+const Polls = require('./src/PollsController');
 
 const PORT = process.env.PORT || 5000;
 
